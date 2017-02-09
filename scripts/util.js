@@ -11,48 +11,106 @@
  * @returns A number in the range [min, max]
  * @type Number
  */
+ FPS = 30;
+
+ function loadImages(){
+ 	playerImage = new Image();
+ 	enemyImage = new Image();
+
+
+ 	playerImage.src = 'images/player.png';
+
+ 	enemyImage.src = 'images/enemy.png';
+
+ }
+
  function init(){
-     canvas = document.getElementById('mycanvas');
 
+ 	canvas = document.getElementById('mycanvas');
+ 	pen = canvas.getContext('2d');
 
-     pen = canvas.getContext('2d');
+ 	WIDTH = canvas.width;
+ 	HEIGHT = canvas.height;
+ 	GAME_OVER = false;
+ 	console.log("manisha");
+ 	textX = 50;
+ 	textY = 50;
 
-     WIDTH = canvas.width;
-     HEIGHT = canvas.height;
-     GAME_OVER = false;
+ 	pen.fillStyle = "#fcf";    
+ 	pen.fillText = ("sup Bro!", 50, 50);
 
-    pen.fillStyle = "#fcf";
-}
+ 	player = {
+ 		color: "#00A",
+ 		x:220,
+ 		y:465,
+ 		w:32,
+ 		h:32,
+ 		speed:5,
+ 		moving:false,
+ 		draw: function(){
+ 			pen.fillStyle = this.color;
+ 			pen.fillRect(this.x, this.y, this.w, this.h);
+ 		}
+ 	};
 
-function draw(){
+ 	document.addEventListener('keydown',function(e){
+ 		if(player.x>=0 || player.x<=WIDTH){
+
+ 			if(e.key=="ArrowRight"){	
+ 				player.x += player.speed;
+ 			}
+ 			if(e.key=="ArrowLeft"){
+ 				player.x -= player.speed;
+ 			}
+ 		}
+
+ 		console.log(e);
+ 	});
+ }
+
+ function draw(){
     //Erase the old screen
     pen.clearRect(0,0,WIDTH,HEIGHT);
-    pen.fillStyle = "#000";
-    pen.fillText = ("set up");
-    }
+    pen.fillStyle = "#E5B7E5";
+    player.draw();
+        // pen.drawImage(playerImage,player.x,player.y,player.w,player.h);
+
+    // pen.fillText = ("set up");
+}
 
 function update(){
+ // textX += 1;
+ // textY += 1;
 }
 
-function render(){
-    draw();
-    update();
-   
-   console.log("In Render");
-    if(GAME_OVER==false){
-        window.requestAnimationFrame(render);
-    }
-    else{
-        startGame();
-    }
-}
+myVar = setInterval(function(){
+	update();
+	draw();
 
+}, 1000/FPS);
+
+
+
+// function render(){
+//     draw();
+//     update();
+
+//    console.log("In Render");
+//     if(GAME_OVER==false){
+//         window.requestAnimationFrame(render);
+//     }
+//     else{
+//         startGame();
+//     }
+// }
+loadImages();
 function startGame(){
-    init();
-    render();
+	init();
+	console.log("manisha");
+    // render();
 }
 startGame();
 
 Number.prototype.clamp = function(min, max) {
-  return Math.min(Math.max(this, min), max);
+	return Math.min(Math.max(this, min), max);
 };
