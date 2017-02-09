@@ -12,6 +12,7 @@
  * @type Number
  */
  FPS = 30;
+ playerBullets = [];
 
  function loadImages(){
  	playerImage = new Image();
@@ -50,24 +51,31 @@
  		draw: function(){
  			pen.fillStyle = this.color;
  			pen.fillRect(this.x, this.y, this.w, this.h);
- 		}
+ 		},
+ 		shoot:function(){
+ 			console.log("phew phew!!");
+ 		}	
+ 		
  	};
-
  	document.addEventListener('keydown',function(e){
- 		if(player.x>=0 || player.x<=WIDTH){
-
- 			if(e.key=="ArrowRight"){	
- 				player.x += player.speed;
- 			}
- 			if(e.key=="ArrowLeft"){
- 				player.x -= player.speed;
- 			}
+ 		if(e.key==" "){
+ 			console.log("space pressed")
+ 			player.shoot();
  		}
+        // if(e.key=="ArrowLeft"){
+        //     pokemon.x -= pokemon.speed;
+        // }
+        if(e.key=="ArrowRight"){
+        	player.x += player.speed;
 
- 		console.log(e);
- 	});
+        }
+        if(e.key=="ArrowLeft"){
+        	player.x -= player.speed;
+        }
+
+        player.x = player.x.clamp(0, WIDTH - player.w);
+    });
  }
-
  function draw(){
     //Erase the old screen
     pen.clearRect(0,0,WIDTH,HEIGHT);
@@ -81,9 +89,33 @@
 function update(){
  // textX += 1;
  // textY += 1;
+
+ 
 }
 
+function Bullet(I){
+	I.active = true;
+	I.xVelocity = 0;
+	I.yVelocity = -I.speed;
+	I.width = 3;
+	I.height = 3; 
+	I.color = "#000";
+	I.inBounds = function(){
+		return I.x >=0 && I.x <= WIDTH && I.y >=0 && I.y <= HEIGHT;
+	};
+	I.draw = function(){
+		pen.fillStyle = this.color;
+		pen.fillRect = (this.x, this.y, this.width, this.height);
+	};
+	I.update = function(){
+		I.x += I.xVelocity;
+		I.y += I.yVelocity;
+		I.active = I.active && I.inBounds();
+	};
+	return I;
+}
 myVar = setInterval(function(){
+	console.log("jhfdshd");
 	update();
 	draw();
 
