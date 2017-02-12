@@ -18,14 +18,13 @@
  function loadImages(){
  	playerImage = new Image();
  	enemyImage = new Image();
-    bullet = new Image();
+  bulletImage = new Image();
 
-    playerImage.src = 'images/player.png';
+  playerImage.src = 'images/player.png';
 
-<<<<<<< Updated upstream
-    enemyImage.src = 'images/enemy.png';
+  enemyImage.src = 'images/enemy.png';
 
-    bullet.src='images/bullet.png';
+  bulletImage.src='images/bullet.png';
 
 }
 
@@ -46,136 +45,68 @@ function init(){
   pen.fillText ("Space Demo", textX, textY);  
 
   player = {
-     color: "#00A",
-     x:220,
-     y:465,
-     w:32,
-     h:32,
-     speed:5,
-     moving:false,
+   color: "#00A",
+   x:220,
+   y:465,
+   w:32,
+   h:32,
+   speed:5,
+   moving:false,
 
-     draw: function(){
-        pen.fillStyle = this.color;
+   draw: function(){
+    pen.fillStyle = this.color;
         // pen.fillRect(0,0,100,100);
         pen.drawImage(playerImage,player.x,player.y,player.w,player.h);
         
-    },
+      },
 
-    shoot:function(){
+      shoot:function(){
         console.log("shooting");
         bulletposition=this.midpoint();
-        console.log(bulletposition);
+        console.log(bulletposition + " Manisha");
         playerBullets.push(Bullet({
-            speed:5,
-            x: bulletposition.x,
-            y: bulletposition.y,
+          speed:5,
+          x: bulletposition.x,
+          y: bulletposition.y,
 
         }));
         console.log(playerBullets);
-    },	
+      },	
 
-    midpoint:function(){
+      midpoint:function(){
         return{
-            x: this.x + WIDTH/2,
-            y: this.y + HEIGHT/2
+          x: this.x + WIDTH/2,
+          y: this.y + HEIGHT/2
         };
-    }
+      },
 
-};
+      explode: function(){
+        this.active = false;
+      }
 
+    };
 
+    document.addEventListener('keydown',function(e){
 
-document.addEventListener('keydown',function(e){
-
-    if(e.key==" "){
+      if(e.key==" "){
         console.log("space pressed")
         player.shoot();
-    }
-    if(e.key=="ArrowRight"){
+      }
+      if(e.key=="ArrowRight"){
        player.x += player.speed;
 
-   }
-   if(e.key=="ArrowLeft"){
+     }
+     if(e.key=="ArrowLeft"){
        player.x -= player.speed;
-   }
+     }
 
-   player.x = player.x.clamp(0, WIDTH - player.w);
+     player.x = player.x.clamp(0, WIDTH - player.w);
 
-});
-=======
- 	playerImage.src = 'images/player.png';
+   });
 
- 	enemyImage.src = 'images/enemy.png';
+  };
 
- }
-
- function init(){
-
- 	canvas = document.getElementById('mycanvas');
- 	pen = canvas.getContext('2d');
-
- 	WIDTH = canvas.width;
- 	HEIGHT = canvas.height;
- 	GAME_OVER = false;
- 	console.log("manisha");
- 	textX = 50;
- 	textY = 50;
-
- 	pen.fillStyle = "#fcf";    
- 	pen.fillText = ("sup Bro!", 50, 50);
-
- 	player = {
- 		color: "red",
- 		x:220,
- 		y:465,
- 		w:32,
- 		h:32,
- 		speed:5,
- 		moving:false,
- 		draw: function(){
- 			console.log("draw function");
- 			pen.fillStyle = this.color;
- 			pen.fillRect(this.x, this.y, this.w, this.h);
- 		},
- 		shoot:function(){
- 			console.log("phew phew!!");
- 			var bulletPosition = this.midpoint();
- 			playerBullets.push(Bullet({
- 				speed: 5,
- 				x: bulletPosition.x,
- 				y: bulletPosition.y,
-
- 			})) ;
-
- 		},
- 		midpoint: function(){
- 			return {
- 				x: this.x+this.w/2,
- 				y: this.y+this.h/2,
- 			};
- 		}
- 		
- 	};
- 	document.addEventListener('keydown',function(e){
- 		if(e.key==" "){
- 			console.log("space pressed")
- 			player.shoot();
- 		}
-        // if(e.key=="ArrowLeft"){
-        //     pokemon.x -= pokemon.speed;
-        // }
-        if(e.key=="ArrowRight"){
-        	player.x += player.speed;
-
-        }
-        if(e.key=="ArrowLeft"){
-        	player.x -= player.speed;
-        }
-
-        player.x = player.x.clamp(0, WIDTH - player.w);
-    });
- }
- function draw(){
+  function draw(){
     //Erase the old screen
     pen.clearRect(0,0,WIDTH,HEIGHT);
     pen.fillStyle = "#E5B7E5";
@@ -189,9 +120,9 @@ document.addEventListener('keydown',function(e){
     enemies.forEach(function(enemy){
     	enemy.draw();
     });
-}
+  }
 
-function update(){
+  function update(){
  // textX += 1;
  // textY += 1;
  playerBullets.forEach(function(bullet){
@@ -214,6 +145,9 @@ function update(){
  // }
 }
 
+
+
+
 function Enemy(I){
 
 	Console.log("Inside Enemy");
@@ -233,7 +167,7 @@ function Enemy(I){
 	};
 	I.draw = function(){
 		pen.fillStyle = this.color;
-		pen.fillRect = (this.x, this.y, this.width, this.height);
+		pen.drawImage(enemyImage,20,40, this.width, this.height);
 	};
 	I.update = function(){
 		I.x += I.xVelocity;
@@ -242,8 +176,11 @@ function Enemy(I){
 		I.age++;
 		I.active = I.active && I.inBounds();
 	};
+	I.explode = function(){
+		this.active = false;
+	};
+ return I;
 
->>>>>>> Stashed changes
 }
 
 function Bullet(I){
@@ -260,77 +197,76 @@ function Bullet(I){
 
 	I.draw = function(){
 		// pen.fillStyle = this.color;
-        pen.fillStyle = "#000";
-        pen.fillRect = (220,465 , this.width, this.height);
-    };
+    pen.fillStyle = "#000";
+    pen.drawImage(bulletImage,220,465 , this.width, this.height);
+  };
 
-    I.update = function(){
-      I.x += I.xVelocity;
-      I.y += I.yVelocity;
-      I.active = I.active && I.inBounds();
+  I.update = function(){
+    I.x += I.xVelocity;
+    I.y += I.yVelocity;
+    I.active = I.active && I.inBounds();
   };
 
   return I;
 }
 
-function update(){
- // textX += 1;
- // textY += 1;
- playerBullets.forEach(function(bullet){
-    bullet.update();
-});
 
- playerBullets=playerBullets.filter(function(bullet){
-    return bullet.active;
-});
 
-}
-<<<<<<< Updated upstream
 // myVar = setInterval(function(){
 // 	console.log("jhfdshd");
 // 	update();
 // 	draw();
-=======
-
-myVar = setInterval(function(){
-	console.log("jhfdshd");
-	update();
-	draw();
->>>>>>> Stashed changes
 
 // }, 1000/FPS);
 
-function draw(){
-    //Erase the old screen
-    pen.clearRect(0,0,WIDTH,HEIGHT);
-    player.draw();
-    // pen.fillText = ("set up",50,50);
 
-    playerBullets.forEach(function(bullet){
-        bullet.draw();
-    });
-}
 
 function render(){
-    draw();
-    update();
+  draw();
+  update();
 
-    // console.log("In Render");
+    console.log("In Render");
     if(GAME_OVER==false){
-        window.requestAnimationFrame(render);
+      window.requestAnimationFrame(render);
     }
     else{
-        startGame();
+      startGame();
     }
-}
+  }
 
-loadImages();
-function startGame(){
-    console.log("In the startGame function");
-    init();
-    render();
+  function collides (a,b){
+   return a.x < b.x + b.width &&
+   a.x + a.width > b.x &&
+   a.y < b.y + b.height &&
+   a.y + a.height > b.y;
+ }
+
+ function handleCollisions(){
+   playerBullets.forEach(function(bullet){
+    enemies.forEach(function(enemy){
+     if (collides(bullet, enemy)){
+      enemy.explode();
+      bullet.active = false;
+    }
+  });
+  });
+   enemies.forEach(function(enemy){
+    if(collides(enemy,player)){
+     enemy.explode();
+     player.explode();
+   }
+ });
+
+ }
+
+ loadImages();
+ function startGame(){
+  console.log("In the startGame function");
+  init();
+  render();
 }
 startGame();
+
 
 Number.prototype.clamp = function(min, max) {
 	return Math.min(Math.max(this, min), max);
